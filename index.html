@@ -8,512 +8,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.10/typed.js"></script>
     <!-- Add html2pdf library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <style>
-      * {
-        scroll-behavior: smooth;
-      }
-
-      :root {
-        --primary: #3b82f6;
-        --secondary: #8b5cf6;
-        --accent: #ec4899;
-      }
-
-      .dark {
-        --bg-primary: #0f172a;
-        --bg-secondary: #1e293b;
-        --text-primary: #f1f5f9;
-        --text-secondary: #cbd5e1;
-      }
-
-      .light {
-        --bg-primary: #ffffff;
-        --bg-secondary: #f8fafc;
-        --text-primary: #1e293b;
-        --text-secondary: #64748b;
-      }
-
-      body {
-        background-color: var(--bg-primary);
-        color: var(--text-primary);
-        transition: all 0.3s ease;
-      }
-
-      .skill-bar {
-        height: 6px;
-        background: #e5e7eb;
-        border-radius: 3px;
-        overflow: hidden;
-      }
-
-      .dark .skill-bar {
-        background: #334155;
-      }
-
-      .skill-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #2563eb, #7c3aed);
-        transition: width 0.3s ease;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(40px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      @keyframes slideInLeft {
-        from {
-          opacity: 0;
-          transform: translateX(-60px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      @keyframes pulse-glow {
-        0%,
-        100% {
-          box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-        }
-        50% {
-          box-shadow: 0 0 40px rgba(139, 92, 246, 0.6);
-        }
-      }
-
-      @keyframes gradient-shift {
-        0% {
-          background-position: 0% 50%;
-        }
-        50% {
-          background-position: 100% 50%;
-        }
-        100% {
-          background-position: 0% 50%;
-        }
-      }
-
-      .fade-in-up {
-        animation: fadeInUp 0.8s ease-out forwards;
-      }
-
-      .slide-in-left {
-        animation: slideInLeft 0.8s ease-out forwards;
-      }
-
-      .float-animation {
-        animation: float 6s ease-in-out infinite;
-      }
-
-      .skill-bar {
-        transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-
-      .card-hover {
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .card-hover::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.1),
-          transparent
-        );
-        transition: left 0.5s;
-      }
-
-      .dark .card-hover::before {
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(255, 255, 255, 0.05),
-          transparent
-        );
-      }
-
-      .card-hover:hover::before {
-        left: 100%;
-      }
-
-      .card-hover:hover {
-        transform: translateY(-12px) scale(1.02);
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
-      }
-
-      .nav-link {
-        position: relative;
-        transition: color 0.3s;
-      }
-
-      .nav-link::after {
-        content: "";
-        position: absolute;
-        bottom: -4px;
-        left: 50%;
-        width: 0;
-        height: 3px;
-        background: linear-gradient(90deg, var(--primary), var(--secondary));
-        transition: all 0.3s ease;
-        transform: translateX(-50%);
-        border-radius: 2px;
-      }
-
-      .nav-link:hover::after {
-        width: 100%;
-      }
-
-      .gradient-text {
-        background: linear-gradient(
-          135deg,
-          var(--primary) 0%,
-          var(--secondary) 50%,
-          var(--accent) 100%
-        );
-        background-size: 200% 200%;
-        animation: gradient-shift 3s ease infinite;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-      }
-
-      .glass-effect {
-        background: rgba(255, 255, 255, 0.9);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      .dark .glass-effect {
-        background: rgba(30, 41, 59, 0.9);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-      }
-
-      .animated-bg {
-        background: linear-gradient(-45deg, #3b82f6, #8b5cf6, #ec4899, #f59e0b);
-        background-size: 400% 400%;
-        animation: gradient-shift 15s ease infinite;
-      }
-
-      .pulse-glow {
-        animation: pulse-glow 2s ease-in-out infinite;
-      }
-
-      .category-card {
-        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        border: 2px solid transparent;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .category-card::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        padding: 2px;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        -webkit-mask: linear-gradient(#fff 0 0) content-box,
-          linear-gradient(#fff 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        opacity: 0;
-        transition: opacity 0.3s;
-      }
-
-      .category-card:hover::after {
-        opacity: 1;
-      }
-
-      .category-card:hover {
-        transform: translateY(-8px) scale(1.05);
-      }
-
-      .project-card {
-        position: relative;
-        overflow: hidden;
-      }
-
-      .project-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          135deg,
-          rgba(59, 130, 246, 0.9),
-          rgba(139, 92, 246, 0.9)
-        );
-        opacity: 0;
-        transition: opacity 0.4s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .project-card:hover .project-overlay {
-        opacity: 1;
-      }
-
-      .scroll-indicator {
-        position: absolute;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%);
-        animation: float 3s ease-in-out infinite;
-      }
-
-      .cv-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.85);
-        backdrop-filter: blur(5px);
-        z-index: 1000;
-        overflow: auto;
-      }
-
-      .cv-modal.active {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        animation: fadeInUp 0.3s ease-out;
-      }
-
-      .stats-number {
-        transition: transform 0.3s;
-      }
-
-      .stats-card:hover .stats-number {
-        transform: scale(1.1);
-      }
-
-      @media (max-width: 768px) {
-        .card-hover:hover {
-          transform: translateY(-8px);
-        }
-        .hero-text {
-          font-size: 2.5rem !important;
-        }
-        .section-title {
-          font-size: 2.5rem !important;
-        }
-      }
-
-      @media print {
-        body * {
-          visibility: hidden;
-        }
-        #cvContent,
-        #cvContent * {
-          visibility: visible;
-        }
-        #cvContent {
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-        }
-        .no-print {
-          display: none !important;
-        }
-        .print-adjust {
-          page-break-inside: avoid;
-        }
-      }
-
-      .particles {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        pointer-events: none;
-      }
-
-      .particle {
-        position: absolute;
-        width: 4px;
-        height: 4px;
-        background: rgba(59, 130, 246, 0.5);
-        border-radius: 50%;
-        animation: float 20s infinite ease-in-out;
-      }
-
-      /* Theme Toggle in Navbar */
-      .theme-toggle-nav {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        background: rgba(59, 130, 246, 0.1);
-        border: 2px solid rgba(59, 130, 246, 0.2);
-      }
-
-      .light .theme-toggle-nav {
-        background: rgba(59, 130, 246, 0.1);
-        color: #1e293b;
-      }
-
-      .dark .theme-toggle-nav {
-        background: rgba(59, 130, 246, 0.2);
-        color: #f1f5f9;
-      }
-
-      .theme-toggle-nav:hover {
-        transform: scale(1.1) rotate(15deg);
-        background: rgba(59, 130, 246, 0.3);
-      }
-
-      /* Mobile Menu Improvements */
-      #mobileMenu {
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease-out;
-      }
-
-      #mobileMenu.show {
-        max-height: 400px;
-      }
-
-      /* Loading Animation */
-      .loading {
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        border: 3px solid rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-        border-top-color: white;
-        animation: spin 1s ease-in-out infinite;
-      }
-
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
-
-      /* Form Improvements */
-      .form-input {
-        transition: all 0.3s ease;
-      }
-
-      .form-input:focus {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
-      }
-
-      /* Progress Bar Animation */
-      .progress-bar {
-        width: 0%;
-        transition: width 1.5s ease-in-out;
-      }
-
-      /* Responsive Typography */
-      @media (max-width: 640px) {
-        .hero-text {
-          font-size: 2rem !important;
-        }
-        .section-title {
-          font-size: 2rem !important;
-        }
-        .card-title {
-          font-size: 1.25rem !important;
-        }
-      }
-
-      /* Improved Contact Form */
-      .contact-input {
-        background: rgba(255, 255, 255, 0.05);
-        border: 2px solid rgba(255, 255, 255, 0.1);
-        transition: all 0.3s ease;
-      }
-
-      .contact-input:focus {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-      }
-
-      /* Skill Card Improvements */
-      .skill-card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .skill-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      }
-
-      .dark .skill-card:hover {
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      }
-
-      /* Toast Message */
-      .toast {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 12px 24px;
-        border-radius: 8px;
-        color: white;
-        font-weight: 500;
-        z-index: 9999;
-        animation: slideInRight 0.3s ease-out;
-      }
-
-      @keyframes slideInRight {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-
-      .toast.success {
-        background: linear-gradient(135deg, #10b981, #059669);
-      }
-
-      .toast.error {
-        background: linear-gradient(135deg, #ef4444, #dc2626);
-      }
-
-      .toast.info {
-        background: linear-gradient(135deg, #3b82f6, #2563eb);
-      }
-    </style>
-  </head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:ital,wght@0,100..700;1,100..700&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&family=Stack+Sans+Text:wght@200..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />  
+<script src="script.js" defer></script>
+
+</head>
   <body class="light">
     <!-- Navigation -->
     <nav
@@ -655,16 +156,16 @@
           <div class="space-y-6 lg:space-y-8 ms-[100px] fade-in-up">
             <div class="inline-block">
               <p
-                class="text-blue-600 font-bold tracking-wide text-base sm:text-lg bg-blue-50 dark:bg-blue-900/30 px-4 py-2 rounded-full"
+                class="text-blue-600 font-bold"
               >
-                👋 Hello, I'm
+                Hello, I'm
               </p>
             </div>
 
             <h1
               class="hero-text text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-gray-900 dark:text-white leading-tight"
             >
-              <span id="typed" class="gradient-text"></span>
+              <span id="typed" style="font-family: 'Kantumruy Pro';" class="gradient-text"></span>
             </h1>
 
             <p class="text-2xl sm:text-3xl font-bold text-gray-700 dark:text-gray-300">
@@ -930,9 +431,7 @@
           <div
             class="w-16 sm:w-20 lg:w-24 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mx-auto rounded-full mb-4"
           ></div>
-          <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Comprehensive expertise across multiple technologies and frameworks with real-world project experience
-          </p>
+        
         </div>
 
         <!-- Skills Grid -->
@@ -959,20 +458,20 @@
               </div>
               <div>
                 <div class="flex justify-between mb-1">
-                  <span class="font-medium text-gray-700 dark:text-gray-300">React Native</span>
-                  <span class="font-bold text-purple-600">85%</span>
+                  <span class="font-medium text-gray-700 dark:text-gray-300">Kotlin</span>
+                  <span class="font-bold text-purple-600">50%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" data-width="85"></div>
+                  <div class="progress-bar bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" data-width="50"></div>
                 </div>
               </div>
               <div>
                 <div class="flex justify-between mb-1">
                   <span class="font-medium text-gray-700 dark:text-gray-300">Android (Java)</span>
-                  <span class="font-bold text-green-600">80%</span>
+                  <span class="font-bold text-green-600">50%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full" data-width="80"></div>
+                  <div class="progress-bar bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full" data-width="50"></div>
                 </div>
               </div>
             </div>
@@ -991,38 +490,38 @@
             <div class="space-y-4">
               <div>
                 <div class="flex justify-between mb-1">
-                  <span class="font-medium text-gray-700 dark:text-gray-300">React.js</span>
-                  <span class="font-bold text-purple-600">88%</span>
+                  <span class="font-medium text-gray-700 dark:text-gray-300">HTML/CSS</span>
+                  <span class="font-bold text-purple-600">80%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" data-width="88"></div>
-                </div>
-              </div>
-              <div>
-                <div class="flex justify-between mb-1">
-                  <span class="font-medium text-gray-700 dark:text-gray-300">Vue.js</span>
-                  <span class="font-bold text-green-600">82%</span>
-                </div>
-                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-green-500 to-teal-500 h-2 rounded-full" data-width="82"></div>
-                </div>
-              </div>
-              <div>
-                <div class="flex justify-between mb-1">
-                  <span class="font-medium text-gray-700 dark:text-gray-300">TypeScript</span>
-                  <span class="font-bold text-blue-600">85%</span>
-                </div>
-                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full" data-width="85"></div>
+                  <div class="progress-bar bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" data-width="80"></div>
                 </div>
               </div>
               <div>
                 <div class="flex justify-between mb-1">
                   <span class="font-medium text-gray-700 dark:text-gray-300">Tailwind CSS</span>
-                  <span class="font-bold text-cyan-600">92%</span>
+                  <span class="font-bold text-green-600">50%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" data-width="92"></div>
+                  <div class="progress-bar bg-gradient-to-r from-green-500 to-teal-500 h-2 rounded-full" data-width="50"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="font-medium text-gray-700 dark:text-gray-300">Javascript</span>
+                  <span class="font-bold text-blue-600">50%</span>
+                </div>
+                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                  <div class="progress-bar bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full" data-width="50"></div>
+                </div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-1">
+                  <span class="font-medium text-gray-700 dark:text-gray-300">React.js</span>
+                  <span class="font-bold text-cyan-600">60%</span>
+                </div>
+                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                  <div class="progress-bar bg-gradient-to-r from-cyan-500 to-blue-500 h-2 rounded-full" data-width="60"></div>
                 </div>
               </div>
             </div>
@@ -1041,40 +540,23 @@
             <div class="space-y-4">
               <div>
                 <div class="flex justify-between mb-1">
-                  <span class="font-medium text-gray-700 dark:text-gray-300">Node.js</span>
-                  <span class="font-bold text-green-600">80%</span>
+                  <span class="font-medium text-gray-700 dark:text-gray-300">Php/Lravel</span>
+                  <span class="font-bold text-green-600">60%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full" data-width="80"></div>
+                  <div class="progress-bar bg-gradient-to-r from-green-500 to-emerald-500 h-2 rounded-full" data-width="60"></div>
                 </div>
               </div>
               <div>
                 <div class="flex justify-between mb-1">
-                  <span class="font-medium text-gray-700 dark:text-gray-300">Express.js</span>
-                  <span class="font-bold text-green-600">78%</span>
+                  <span class="font-medium text-gray-700 dark:text-gray-300">Spring boot</span>
+                  <span class="font-bold text-green-600">40%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full" data-width="78"></div>
+                  <div class="progress-bar bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full" data-width="40"></div>
                 </div>
               </div>
-              <div>
-                <div class="flex justify-between mb-1">
-                  <span class="font-medium text-gray-700 dark:text-gray-300">MongoDB</span>
-                  <span class="font-bold text-green-600">75%</span>
-                </div>
-                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-teal-500 to-cyan-500 h-2 rounded-full" data-width="75"></div>
-                </div>
-              </div>
-              <div>
-                <div class="flex justify-between mb-1">
-                  <span class="font-medium text-gray-700 dark:text-gray-300">Python</span>
-                  <span class="font-bold text-blue-600">85%</span>
-                </div>
-                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-blue-500 to-indigo-500 h-2 rounded-full" data-width="85"></div>
-                </div>
-              </div>
+           
             </div>
           </div>
 
@@ -1086,43 +568,43 @@
                   <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z"/>
                 </svg>
               </div>
-              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Tools & DevOps</h3>
+              <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Tools</h3>
             </div>
             <div class="space-y-4">
               <div>
                 <div class="flex justify-between mb-1">
                   <span class="font-medium text-gray-700 dark:text-gray-300">Git & GitHub</span>
-                  <span class="font-bold text-orange-600">85%</span>
+                  <span class="font-bold text-orange-600">60%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full" data-width="85"></div>
+                  <div class="progress-bar bg-gradient-to-r from-orange-500 to-red-500 h-2 rounded-full" data-width="60"></div>
                 </div>
               </div>
               <div>
                 <div class="flex justify-between mb-1">
                   <span class="font-medium text-gray-700 dark:text-gray-300">Firebase</span>
-                  <span class="font-bold text-orange-600">82%</span>
+                  <span class="font-bold text-orange-600">50%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-red-500 to-pink-500 h-2 rounded-full" data-width="82"></div>
+                  <div class="progress-bar bg-gradient-to-r from-red-500 to-pink-500 h-2 rounded-full" data-width="50"></div>
                 </div>
               </div>
               <div>
                 <div class="flex justify-between mb-1">
                   <span class="font-medium text-gray-700 dark:text-gray-300">Docker</span>
-                  <span class="font-bold text-blue-600">70%</span>
+                  <span class="font-bold text-blue-600">20%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full" data-width="70"></div>
+                  <div class="progress-bar bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full" data-width="20"></div>
                 </div>
               </div>
               <div>
                 <div class="flex justify-between mb-1">
                   <span class="font-medium text-gray-700 dark:text-gray-300">VS Code</span>
-                  <span class="font-bold text-blue-600">95%</span>
+                  <span class="font-bold text-blue-600">80%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-blue-600 to-indigo-600 h-2 rounded-full" data-width="95"></div>
+                  <div class="progress-bar bg-gradient-to-r from-blue-600 to-indigo-600 h-2 rounded-full" data-width="80"></div>
                 </div>
               </div>
             </div>
@@ -1142,30 +624,13 @@
               <div>
                 <div class="flex justify-between mb-1">
                   <span class="font-medium text-gray-700 dark:text-gray-300">Figma</span>
-                  <span class="font-bold text-pink-600">88%</span>
+                  <span class="font-bold text-pink-600">50%</span>
                 </div>
                 <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-pink-500 to-rose-500 h-2 rounded-full" data-width="88"></div>
+                  <div class="progress-bar bg-gradient-to-r from-pink-500 to-rose-500 h-2 rounded-full" data-width="50"></div>
                 </div>
               </div>
-              <div>
-                <div class="flex justify-between mb-1">
-                  <span class="font-medium text-gray-700 dark:text-gray-300">Adobe XD</span>
-                  <span class="font-bold text-purple-600">80%</span>
-                </div>
-                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full" data-width="80"></div>
-                </div>
-              </div>
-              <div>
-                <div class="flex justify-between mb-1">
-                  <span class="font-medium text-gray-700 dark:text-gray-300">Adobe Photoshop</span>
-                  <span class="font-bold text-blue-600">75%</span>
-                </div>
-                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                  <div class="progress-bar bg-gradient-to-r from-blue-500 to-cyan-500 h-2 rounded-full" data-width="75"></div>
-                </div>
-              </div>
+              
             </div>
           </div>
 
@@ -1180,7 +645,6 @@
               <h3 class="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Soft Skills</h3>
             </div>
             <div class="grid grid-cols-2 gap-3">
-              <span class="bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 px-3 py-2 rounded-lg text-center font-medium">Team Leadership</span>
               <span class="bg-violet-100 dark:bg-violet-900/30 text-violet-700 dark:text-violet-300 px-3 py-2 rounded-lg text-center font-medium">Communication</span>
               <span class="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-3 py-2 rounded-lg text-center font-medium">Problem Solving</span>
               <span class="bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-2 rounded-lg text-center font-medium">Time Management</span>
@@ -1226,7 +690,7 @@
           >
             <div class="relative h-48 sm:h-56 overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                src="https://i.pinimg.com/1200x/9a/24/8f/9a248fc1967d06ab7c65c9c6ce7498f2.jpg"
                 alt="E-Commerce App"
                 class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110"
               />
@@ -1239,7 +703,7 @@
             </div>
             <div class="p-6 sm:p-8">
               <h3 class="card-title text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-                E-Commerce Mobile App
+                Burger App
               </h3>
               <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-6 leading-relaxed">
                 A complete e-commerce solution with real-time inventory, payment
@@ -1248,7 +712,7 @@
               <div class="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
                 <span
                   class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
-                  >Dart</span
+                  >Flutter</span
                 >
                 <span
                   class="bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
@@ -1256,11 +720,11 @@
                 >
                 <span
                   class="bg-pink-50 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
-                  >Stripe API</span
+                  >Laravel</span
                 >
                 <span
                   class="bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
-                  >Provider</span
+                  >Getx</span
                 >
               </div>
               <div class="project-overlay flex-col">
@@ -1283,42 +747,39 @@
           >
             <div class="relative h-48 sm:h-56 overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                src="https://i.pinimg.com/1200x/e4/0c/3f/e40c3fec04cd21d0e3b91b27f25b006e.jpg"
                 alt="Task Manager"
                 class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110"
               />
               <div class="absolute top-3 sm:top-4 left-3 sm:left-4">
                 <span
                   class="bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs sm:text-sm font-bold px-2 sm:px-3 py-1 rounded-full"
-                  >React Native</span
+                  >Flutter</span
                 >
               </div>
             </div>
             <div class="p-6 sm:p-8">
               <h3 class="card-title text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-                Task Management System
+                Coffee Shop App
               </h3>
               <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-6 leading-relaxed">
-                Productivity app with team collaboration, real-time updates, and
-                advanced filtering capabilities.
+                coffee shop app with user authentication, order tracking, and
+                push notifications.
               </p>
               <div class="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
                 <span
                   class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
-                  >TypeScript</span
+                  >Flutter</span
                 >
                 <span
                   class="bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
-                  >Redux</span
+                  >Firebase</span
                 >
                 <span
                   class="bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
-                  >MongoDB</span
+                  >Bloc</span
                 >
-                <span
-                  class="bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
-                  >Socket.io</span
-                >
+               
               </div>
               <div class="project-overlay flex-col">
                 <a
@@ -1340,46 +801,46 @@
           >
             <div class="relative h-48 sm:h-56 overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                alt="Learning Platform"
+                src="https://www.characrosstheworld.com/wp-content/uploads/2024/02/IMG_2870-scaled.jpg"
+                alt="Combodia Travel Agency"
                 class="w-full h-full object-cover transform transition duration-700 group-hover:scale-110"
               />
               <div class="absolute top-3 sm:top-4 left-3 sm:left-4">
                 <span
                   class="bg-gradient-to-r from-green-600 to-teal-600 text-white text-xs sm:text-sm font-bold px-2 sm:px-3 py-1 rounded-full"
-                  >Full Stack</span
+                  >Frontend</span
                 >
               </div>
             </div>
             <div class="p-6 sm:p-8">
               <h3 class="card-title text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
-                Online Learning Platform
+                Combodia Travel Agency
               </h3>
               <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-4 sm:mb-6 leading-relaxed">
-                Interactive platform with video courses, progress tracking, and
-                certification system.
+                A travel agency website offering tour packages, booking
+                management, and customer reviews.
               </p>
               <div class="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
                 <span
                   class="bg-yellow-50 dark:bg-yellow-900/30 text-yellow-600 dark:text-yellow-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
-                  >JavaScript</span
+                  >HTML</span
                 >
                 <span
                   class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
-                  >Node.js</span
+                  >CSS</span
                 >
                 <span
                   class="bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
-                  >Express</span
+                  >Tailwind</span
                 >
                 <span
                   class="bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium"
-                  >React</span
+                  >JavaScript</span
                 >
               </div>
               <div class="project-overlay flex-col">
                 <a
-                  href="#"
+                  href="https://web-blond-seven-15.vercel.app/" target="_blank"
                   class="bg-white text-green-600 px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold hover:bg-green-50 transition mb-2 sm:mb-3"
                   >Live Demo</a
                 >
@@ -1597,9 +1058,9 @@
                     </p>
 
                     <p class="text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
-                      In-depth training in mobile and backend development,
-                      covering Node.js, Express, MongoDB, REST APIs, and modern
-                      development best practices.
+                      Mobile application development using Flutter,
+                      covering UI design, state management, and backend
+                      integration.
                     </p>
                   </div>
                 </div>
@@ -1649,7 +1110,6 @@
                     <a href="mailto:seangleangsim006@gmail.com" class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-base sm:text-lg transition-colors">
                       seangleangsim006@gmail.com
                     </a>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1">I typically respond within 24 hours</p>
                   </div>
                 </div>
 
@@ -1665,7 +1125,6 @@
                     <a href="tel:+85581707930" class="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 text-base sm:text-lg transition-colors">
                       +855 81 707 930
                     </a>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1">Available Mon-Fri, 9AM-6PM</p>
                   </div>
                 </div>
 
@@ -1680,7 +1139,6 @@
                   <div>
                     <h4 class="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2">Location</h4>
                     <p class="text-gray-700 dark:text-gray-300 text-base sm:text-lg">Phnom Penh, Cambodia</p>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm sm:text-base mt-1">Open to remote work worldwide</p>
                   </div>
                 </div>
               </div>
@@ -1740,7 +1198,7 @@
               <div class="space-y-2">
                 <label class="block text-gray-700 dark:text-gray-300 font-medium">Message *</label>
                 <textarea 
-                  rows="6" 
+                  rows="4" 
                   required 
                   class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all resize-none"
                   placeholder="Tell me about your project, timeline, and budget..."
@@ -1914,44 +1372,64 @@
                         <div class="h-2 rounded-full bg-gradient-to-r from-blue-500 to-purple-500" style="width: 90%"></div>
                       </div>
                     </div>
-
                     <div>
                       <div class="flex justify-between mb-1">
-                        <span class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">React Native</span>
-                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">85%</span>
+                        <span class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Kotlin</span>
+                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">50%</span>
                       </div>
                       <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div class="h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500" style="width: 85%"></div>
+                        <div class="h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500" style="width: 50%"></div>
                       </div>
                     </div>
+                    <div>
+                      <div class="flex justify-between mb-1">
+                        <span class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Java, C#</span>
+                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">80%</span>
+                      </div>
+                      <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="h-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500" style="width: 80%"></div>
+                      </div>
+                    </div>
+                    <div>
+                      <div class="flex justify-between mb-1">
+                        <span class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">HTML/CSS</span>
+                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">80%</span>
+                      </div>
+                      <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div class="h-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500" style="width: 80%"></div>
+                      </div>
+                    </div> 
+                    
+
+                   
 
                     <div>
                       <div class="flex justify-between mb-1">
                         <span class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">React.js</span>
-                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">88%</span>
+                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">60%</span>
                       </div>
                       <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div class="h-2 rounded-full bg-gradient-to-r from-blue-400 to-cyan-500" style="width: 88%"></div>
+                        <div class="h-2 rounded-full bg-gradient-to-r from-blue-400 to-cyan-500" style="width: 60%"></div>
                       </div>
                     </div>
 
                     <div>
                       <div class="flex justify-between mb-1">
-                        <span class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Node.js</span>
-                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">80%</span>
+                        <span class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Php/Laravel</span>
+                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">60%</span>
                       </div>
                       <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div class="h-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500" style="width: 80%"></div>
+                        <div class="h-2 rounded-full bg-gradient-to-r from-green-500 to-emerald-500" style="width: 60%"></div>
                       </div>
                     </div>
 
                     <div>
                       <div class="flex justify-between mb-1">
                         <span class="text-xs sm:text-sm font-medium text-gray-700 dark:text-gray-300">Firebase</span>
-                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">85%</span>
+                        <span class="text-xs sm:text-sm text-gray-500 dark:text-gray-400">50%</span>
                       </div>
                       <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div class="h-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500" style="width: 85%"></div>
+                        <div class="h-2 rounded-full bg-gradient-to-r from-orange-500 to-red-500" style="width: 50%"></div>
                       </div>
                     </div>
                   </div>
@@ -2050,19 +1528,7 @@
                       </div>
                     </div>
 
-                    <div class="relative pl-5 sm:pl-6 border-l-2 border-blue-200 dark:border-blue-700 print:pl-4">
-                      <div class="absolute w-3 h-3 sm:w-4 sm:h-4 bg-blue-600 rounded-full -left-[7px] sm:-left-[9px] top-1 print:-left-2"></div>
-                      <div>
-                        <h4 class="font-bold text-gray-800 dark:text-white text-sm sm:text-base print:text-sm">Freelance Mobile Developer</h4>
-                        <p class="text-blue-600 dark:text-blue-400 font-semibold text-xs sm:text-sm mb-1 sm:mb-2 print:text-xs">Self-Employed · 2022 - Present</p>
-                        <ul class="text-gray-700 dark:text-gray-300 text-xs sm:text-sm space-y-1 list-disc list-inside print:text-xs">
-                          <li>Developed multiple Flutter applications for local businesses</li>
-                          <li>Implemented Firebase backend solutions for authentication and data management</li>
-                          <li>Created responsive UI/UX designs following material design guidelines</li>
-                          <li>Maintained and updated existing mobile applications</li>
-                        </ul>
-                      </div>
-                    </div>
+                   
                   </div>
                 </section>
 
@@ -2085,37 +1551,14 @@
 
                     <div class="bg-gray-50 dark:bg-gray-700/30 p-3 sm:p-4 rounded-lg print:p-2">
                       <h4 class="font-bold text-gray-800 dark:text-white text-sm sm:text-base print:text-sm">High School Diploma (BAC II)</h4>
-                      <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-sm print:text-xs">Cambodia · 2023</p>
+                      <p class="text-gray-600 dark:text-gray-400 text-xs sm:text-sm print:text-xs">Hunsen Preksondek High school</p>
                       <p class="text-gray-700 dark:text-gray-300 text-xs sm:text-sm mt-1 sm:mt-2 print:text-xs print:mt-1">
-                        Focus: Mathematics and Science
+                        Completed Grade 12 with B in Science
                       </p>
                     </div>
                   </div>
                 </section>
 
-                <!-- Projects -->
-                <section class="print-adjust">
-                  <h3 class="text-base sm:text-lg font-bold text-gray-800 dark:text-white mb-3 sm:mb-4 pb-2 border-b-2 border-blue-600 print:text-sm">
-                    Notable Projects
-                  </h3>
-                  <div class="space-y-2 sm:space-y-3 print:space-y-1">
-                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-3 sm:p-4 rounded-lg print:p-2">
-                      <h4 class="font-bold text-gray-800 dark:text-white text-sm sm:text-base print:text-sm">E-Commerce Mobile App</h4>
-                      <p class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mt-1 print:text-xs">
-                        Flutter-based shopping app with Firebase backend, featuring product catalog, 
-                        cart management, and secure payment integration.
-                      </p>
-                    </div>
-
-                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-3 sm:p-4 rounded-lg print:p-2">
-                      <h4 class="font-bold text-gray-800 dark:text-white text-sm sm:text-base print:text-sm">Learning Management System</h4>
-                      <p class="text-xs sm:text-sm text-gray-700 dark:text-gray-300 mt-1 print:text-xs">
-                        Web platform built with React and Node.js for course management, 
-                        student tracking, and online assessments.
-                      </p>
-                    </div>
-                  </div>
-                </section>
 
               </main>
             </div>
@@ -2148,413 +1591,5 @@
         </div>
       </div>
     </div>
-
-    <script>
-      // Theme Toggle Functions
-      function initThemeToggle() {
-        const body = document.body;
-        const sunIcon = document.getElementById('sunIcon');
-        const moonIcon = document.getElementById('moonIcon');
-        const sunIconMobile = document.getElementById('sunIconMobile');
-        const moonIconMobile = document.getElementById('moonIconMobile');
-        
-        // Check for saved theme or prefer-color-scheme
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-        if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-          body.classList.add('dark');
-          body.classList.remove('light');
-          if (sunIcon) sunIcon.style.display = 'block';
-          if (moonIcon) moonIcon.style.display = 'none';
-          if (sunIconMobile) sunIconMobile.style.display = 'block';
-          if (moonIconMobile) moonIconMobile.style.display = 'none';
-        } else {
-          body.classList.add('light');
-          body.classList.remove('dark');
-          if (sunIcon) sunIcon.style.display = 'none';
-          if (moonIcon) moonIcon.style.display = 'block';
-          if (sunIconMobile) sunIconMobile.style.display = 'none';
-          if (moonIconMobile) moonIconMobile.style.display = 'block';
-        }
-
-        // Desktop theme toggle
-        const themeToggleNav = document.getElementById('themeToggleNav');
-        if (themeToggleNav) {
-          themeToggleNav.addEventListener('click', () => {
-            toggleTheme(sunIcon, moonIcon, sunIconMobile, moonIconMobile);
-          });
-        }
-
-        // Mobile theme toggle
-        const themeToggleMobile = document.getElementById('themeToggleMobile');
-        if (themeToggleMobile) {
-          themeToggleMobile.addEventListener('click', () => {
-            toggleTheme(sunIcon, moonIcon, sunIconMobile, moonIconMobile);
-          });
-        }
-      }
-
-      function toggleTheme(sunIcon, moonIcon, sunIconMobile, moonIconMobile) {
-        const body = document.body;
-        if (body.classList.contains('light')) {
-          body.classList.remove('light');
-          body.classList.add('dark');
-          if (sunIcon) sunIcon.style.display = 'block';
-          if (moonIcon) moonIcon.style.display = 'none';
-          if (sunIconMobile) sunIconMobile.style.display = 'block';
-          if (moonIconMobile) moonIconMobile.style.display = 'none';
-          localStorage.setItem('theme', 'dark');
-        } else {
-          body.classList.remove('dark');
-          body.classList.add('light');
-          if (sunIcon) sunIcon.style.display = 'none';
-          if (moonIcon) moonIcon.style.display = 'block';
-          if (sunIconMobile) sunIconMobile.style.display = 'none';
-          if (moonIconMobile) moonIconMobile.style.display = 'block';
-          localStorage.setItem('theme', 'light');
-        }
-      }
-
-      // Typing Animation
-      var typed = new Typed("#typed", {
-        strings: ["Seang Leangsim", "ស៊ាង លាងស៊ីម"],
-        typeSpeed: 60,
-        backSpeed: 40,
-        backDelay: 1500,
-        loop: true,
-        smartBackspace: true,
-      });
-
-      // Navbar scroll effect
-      window.addEventListener("scroll", function () {
-        const navbar = document.getElementById("navbar");
-        if (window.scrollY > 50) {
-          navbar.classList.add("shadow-xl", "backdrop-blur-xl");
-          navbar.classList.remove("glass-effect");
-        } else {
-          navbar.classList.remove("shadow-xl", "backdrop-blur-xl");
-          navbar.classList.add("glass-effect");
-        }
-      });
-
-      // Mobile menu toggle
-      const menuBtn = document.getElementById("menuBtn");
-      const mobileMenu = document.getElementById("mobileMenu");
-      let isMenuOpen = false;
-
-      if (menuBtn && mobileMenu) {
-        menuBtn.addEventListener("click", () => {
-          isMenuOpen = !isMenuOpen;
-          if (isMenuOpen) {
-            mobileMenu.classList.add("show");
-            mobileMenu.classList.remove("hidden");
-          } else {
-            mobileMenu.classList.remove("show");
-            setTimeout(() => {
-              if (!mobileMenu.classList.contains('show')) {
-                mobileMenu.classList.add("hidden");
-              }
-            }, 300);
-          }
-        });
-
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('#mobileMenu a').forEach(link => {
-          link.addEventListener('click', () => {
-            mobileMenu.classList.remove("show");
-            setTimeout(() => {
-              mobileMenu.classList.add("hidden");
-            }, 300);
-            isMenuOpen = false;
-          });
-        });
-      }
-
-      // CV Modal Functions
-      function openCV() {
-        document.getElementById('cvModal').classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeCV() {
-        document.getElementById('cvModal').classList.add('hidden');
-        document.body.style.overflow = 'auto';
-      }
-
-      function printCV() {
-        window.print();
-      }
-
-      // Toast notification function
-      function showToast(message, type = 'info') {
-        const toast = document.createElement('div');
-        toast.className = `toast ${type}`;
-        toast.textContent = message;
-        document.body.appendChild(toast);
-        
-        setTimeout(() => {
-          toast.remove();
-        }, 3000);
-      }
-
-      // Fixed PDF Download Function
-      async function downloadPDF() {
-        const button = event?.target?.closest('button');
-        const originalText = button ? button.innerHTML : '';
-        
-        if (button) {
-          // Show loading state
-          button.innerHTML = `
-            <span class="flex items-center gap-2">
-              <div class="loading"></div>
-              Generating PDF...
-            </span>
-          `;
-          button.disabled = true;
-        }
-
-        try {
-          const element = document.getElementById('cvContent');
-          
-          // Create a clone for PDF generation
-          const clone = element.cloneNode(true);
-          
-          // Remove no-print classes and show all elements
-          clone.querySelectorAll('.no-print').forEach(el => el.remove());
-          
-          // Optimize for PDF
-          clone.style.width = '210mm'; // A4 width
-          clone.style.margin = '0 auto';
-          clone.style.padding = '20mm';
-          clone.style.backgroundColor = 'white';
-          clone.style.color = 'black';
-          
-          // Remove dark mode classes for PDF
-          clone.classList.remove('dark:bg-gray-800');
-          clone.classList.add('bg-white');
-          
-          // Convert all text to black for better PDF readability
-          clone.querySelectorAll('*').forEach(el => {
-            if (el.style) {
-              el.style.color = el.style.color.includes('rgb') ? el.style.color : 'black';
-            }
-          });
-
-          const opt = {
-            margin: 10,
-            filename: 'Seang_Leangsim_CV.pdf',
-            image: { 
-              type: 'jpeg', 
-              quality: 1.0 
-            },
-            html2canvas: { 
-              scale: 2,
-              useCORS: true,
-              logging: false,
-              backgroundColor: '#ffffff',
-              letterRendering: true,
-              allowTaint: true,
-              removeContainer: true,
-              width: element.scrollWidth,
-              height: element.scrollHeight
-            },
-            jsPDF: { 
-              unit: 'mm', 
-              format: 'a4', 
-              orientation: 'portrait',
-              compress: true
-            }
-          };
-
-          // Generate PDF
-          await html2pdf().set(opt).from(clone).save();
-          
-          // Show success message
-          showToast('PDF downloaded successfully!', 'success');
-          
-        } catch (error) {
-          console.error('PDF generation error:', error);
-          showToast('Failed to generate PDF. Please try printing instead.', 'error');
-          
-          // Fallback: Open print dialog
-          setTimeout(() => {
-            window.print();
-          }, 1000);
-        } finally {
-          // Restore button state
-          if (button) {
-            button.innerHTML = originalText;
-            button.disabled = false;
-          }
-        }
-      }
-
-      // Close modal when clicking outside
-      document.getElementById('cvModal')?.addEventListener('click', function(e) {
-        if (e.target === this) {
-          closeCV();
-        }
-      });
-
-      // Close modal with Escape key
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-          closeCV();
-        }
-      });
-
-      // Animate progress bars on scroll
-      function animateProgressBars() {
-        const progressBars = document.querySelectorAll('.progress-bar');
-        progressBars.forEach(bar => {
-          const width = bar.getAttribute('data-width');
-          if (width) {
-            // Set initial width to 0
-            bar.style.width = '0%';
-            
-            // Use Intersection Observer to animate when in view
-            const observer = new IntersectionObserver((entries) => {
-              entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                  setTimeout(() => {
-                    bar.style.width = width + '%';
-                  }, 300);
-                  observer.unobserve(entry.target);
-                }
-              });
-            }, { threshold: 0.5 });
-            
-            observer.observe(bar.parentElement);
-          }
-        });
-      }
-
-      // Smooth scrolling for anchor links
-      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-        anchor.addEventListener("click", function (e) {
-          e.preventDefault();
-          const targetId = this.getAttribute("href");
-          if (targetId === "#") return;
-
-          const targetElement = document.querySelector(targetId);
-          if (targetElement) {
-            window.scrollTo({
-              top: targetElement.offsetTop - 80,
-              behavior: "smooth",
-            });
-            // Close mobile menu if open
-            if (isMenuOpen) {
-              const mobileMenu = document.getElementById("mobileMenu");
-              if (mobileMenu) {
-                mobileMenu.classList.remove("show");
-                setTimeout(() => {
-                  mobileMenu.classList.add("hidden");
-                }, 300);
-                isMenuOpen = false;
-              }
-            }
-          }
-        });
-      });
-
-      // Create particles
-      function createParticles() {
-        const particlesContainer = document.getElementById("particles");
-        if (!particlesContainer) return;
-
-        const particleCount = 30;
-
-        for (let i = 0; i < particleCount; i++) {
-          const particle = document.createElement("div");
-          particle.classList.add("particle");
-
-          // Random position
-          particle.style.left = Math.random() * 100 + "%";
-          particle.style.top = Math.random() * 100 + "%";
-
-          // Random size
-          const size = Math.random() * 3 + 1;
-          particle.style.width = size + "px";
-          particle.style.height = size + "px";
-
-          // Random animation delay
-          particle.style.animationDelay = Math.random() * 20 + "s";
-
-          // Random opacity
-          particle.style.opacity = Math.random() * 0.5 + 0.2;
-
-          particlesContainer.appendChild(particle);
-        }
-      }
-
-      // Form submission handler
-      const contactForm = document.getElementById('contactForm');
-      if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-          e.preventDefault();
-          
-          const submitBtn = document.getElementById('submitBtn');
-          const originalText = submitBtn.innerHTML;
-          
-          // Show loading state
-          submitBtn.innerHTML = `
-            <span class="flex items-center gap-2">
-              <div class="loading"></div>
-              Sending...
-            </span>
-          `;
-          submitBtn.disabled = true;
-
-          // Simulate API call
-          setTimeout(() => {
-            // Success message
-            showToast('Message sent successfully! I\'ll get back to you soon.', 'success');
-
-            // Reset form
-            this.reset();
-
-            // Restore button
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-          }, 1500);
-        });
-      }
-
-      // Initialize everything on load
-      window.addEventListener("load", () => {
-        initThemeToggle();
-        createParticles();
-        animateProgressBars();
-
-        // Add initial animations
-        document
-          .querySelectorAll(".fade-in-up, .slide-in-left")
-          .forEach((el) => {
-            el.style.opacity = "1";
-          });
-
-        // Check for reduced motion preference
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReducedMotion) {
-          document.querySelectorAll('.progress-bar').forEach(bar => {
-            bar.style.animation = 'none';
-            bar.style.transition = 'none';
-          });
-        }
-      });
-
-      // Responsive adjustments
-      window.addEventListener('resize', function() {
-        if (window.innerWidth > 768 && isMenuOpen) {
-          const mobileMenu = document.getElementById("mobileMenu");
-          if (mobileMenu) {
-            mobileMenu.classList.remove("show");
-            mobileMenu.classList.add("hidden");
-            isMenuOpen = false;
-          }
-        }
-      });
-    </script>
   </body>
 </html>
